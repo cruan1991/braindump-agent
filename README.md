@@ -2,8 +2,7 @@
 
 A tiny agent that reorganizes your to-do list when your brain is fried.
 
-![screenshot](https://github.com/user-attachments/assets/placeholder.png)
-<!-- Replace with actual screenshot: just open http://127.0.0.1:8000, take a screenshot, upload to GitHub issue, paste URL here -->
+![screenshot](https://github.com/user-attachments/assets/f2f71dfc-45e3-46f3-b234-4870e9191093)
 
 ## What it does
 

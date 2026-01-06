@@ -2,21 +2,19 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
-.env
+.venv/
+venv/
 
-# User data (keep templates, ignore personal data)
+# Secrets
+.env
+*.key
+
+# User data
 state.md
 runs/*.md
 !runs/README.md
 summaries/
 
-# Old/unused files
-last_dump.md
-run.md
-run.py
-run_agent.py
-notes.md
-
-# macOS
+# OS
 .DS_Store
-
+Thumbs.db

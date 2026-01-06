@@ -1,59 +1,57 @@
-# BrainDump Agent 🧠
+# BrainDump
 
-A minimalist task management tool designed for people with ADHD and anxiety.
+A tiny agent that reorganizes your to-do list when your brain is fried.
 
-## ✨ Features
+![screenshot](https://github.com/user-attachments/assets/placeholder.png)
+<!-- Replace with actual screenshot: just open http://127.0.0.1:8000, take a screenshot, upload to GitHub issue, paste URL here -->
 
-- 🎯 **Voice/Text Input** - Dump all the messy thoughts in your head
-- 📋 **Smart Organization** - AI picks the 3-5 most important tasks for today
-- ✅ **One-Click Done** - Click to complete, get praise + fireworks 🎆
-- 🎨 **3 Praise Styles** - Snarky / Neutral / Warm
-- 📦 **Auto Archive** - Done Archive + Weekly Summary
+## What it does
 
-## 🚀 Quick Start
+- Takes your messy brain dump and picks 3–5 tasks you can actually start today
+- Marks tasks done with one click, gives you a short praise, shows fireworks
+- Keeps a `state.md` file as the single source of truth
+- Archives completed items automatically with dates
+- Works offline after initial setup (most interactions don't call LLM)
 
-### 1. Install Dependencies
+## What it deliberately does NOT do
+
+- No account, no login, no cloud sync
+- No calendar integration, no notifications, no reminders
+- No "smart prioritization" — just picks what's easiest to start
+- No mobile app — it's a local web page
+- No team features — this is for one tired person
+
+## How it works
+
+```
+You type/speak → state.md gets updated → Groq LLM reorganizes → state.md gets overwritten
+                                              ↓
+                         Most actions (complete, archive) skip the LLM entirely
+```
+
+- **Backend**: FastAPI (Python)
+- **Frontend**: Single HTML file, vanilla JS
+- **LLM**: Groq (free tier works fine)
+- **Data**: Everything lives in `state.md`
+
+## Quick Start
 
 ```bash
 pip install fastapi uvicorn groq
+export GROQ_API_KEY='your_key'   # free at console.groq.com
+./gui                            # opens http://127.0.0.1:8000
 ```
 
-### 2. Set API Key
+## Cost
 
-```bash
-export GROQ_API_KEY='your_groq_api_key'
-```
+Groq free tier: 100k tokens/day. Typical usage: ~2k tokens per replan. You won't hit the limit unless you replan 50+ times a day.
 
-Get free key: https://console.groq.com
+## Status
 
-### 3. Run
+Personally used daily. Still evolving. Works on macOS, should work on Linux. Windows untested.
 
-```bash
-./gui
-# or
-uvicorn app:app --reload
-```
+---
 
-Open http://127.0.0.1:8000
+**Designed for ADHD and low-energy moments.**
 
-## 📖 How to Use
-
-1. **Input thoughts** - Type anything, or click mic for voice input
-2. **Click Replan** - AI organizes into actionable tasks
-3. **Complete tasks** - Click "Done", add notes (optional)
-4. **Watch fireworks** - Say "All done!" when finished 🎉
-
-## 📁 Files
-
-| File | Description |
-|------|-------------|
-| `app.py` | FastAPI backend |
-| `static/index.html` | Frontend |
-| `state.md` | Task state (your data) |
-| `prompts/brain_dump.md` | AI prompt |
-| `runs/` | History snapshots |
-| `summaries/` | Weekly summaries |
-
-## 📜 License
-
-MIT
+`state.md` is the only file that matters. Back it up if you care about your history.

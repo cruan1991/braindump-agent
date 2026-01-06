@@ -1,26 +1,25 @@
-## 今天做这几件就够了
+## Today's Tasks
 
-1. **第一个任务**  
-   → 打开文档，开始写第一段
+1. **First task**  
+   → Open the document, start writing the first paragraph
 
-2. **第二个任务**  
-   → 回复最紧急的邮件
-
----
-
-## 今天可以不做
-
-- 整理文件夹 — 不紧急，明天再说
-- 看视频教程 — 可以周末看
+2. **Second task**  
+   → Reply to the most urgent email
 
 ---
 
-## 如果还有余力
+## Can Skip Today
 
-- 休息一下
+- Organize folder — Not urgent, can do tomorrow
+- Watch tutorial — Can do on weekend
+
+---
+
+## If You Have Extra Energy
+
+- Take a break
 
 ## Done Archive
-- [x] 2026-01-06 — 示例完成项
+- [x] 2026-01-06 — Example completed item
 
 <!-- meta: {"praise_style": "neutral"} -->
-

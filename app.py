@@ -38,65 +38,65 @@ META_RE = re.compile(r"^<!--\s*meta:\s*(\{.*\})\s*-->$")
 
 PRAISE_POOLS = {
     "snarky": [
-        "行，你确实动了。",
-        "居然做完了，奇迹。",
-        "可以，别上头。",
-        "完事了，别飘。",
-        "行吧，勉强认可。",
-        "总算是干了点正事。",
-        "这不就做完了，之前纠结啥。",
-        "好，收。别继续了。",
+        "Well, you actually moved.",
+        "Wow, you finished. A miracle.",
+        "Fine. Don't get cocky.",
+        "Done. Don't push it.",
+        "Alright, barely acceptable.",
+        "Finally did something useful.",
+        "See? That wasn't so hard.",
+        "Good. Now stop.",
     ],
     "neutral": [
-        "已完成。",
-        "做完了。",
-        "一件事，结束。",
-        "划掉。",
-        "完成，下一个。",
-        "搞定。",
-        "OK.",
         "Done.",
+        "Completed.",
+        "One down.",
+        "Checked off.",
+        "Done. Next.",
+        "Finished.",
+        "OK.",
+        "Complete.",
     ],
     "warm": [
-        "做得好，辛苦了。",
-        "完成了，真棒。",
-        "这一步走得很好。",
-        "你做到了，休息一下吧。",
-        "很好，可以喘口气了。",
-        "完成了，给自己点个赞。",
-        "一件事搞定，继续加油。",
-        "不错，今天又进步了。",
+        "Great job! Take a breather.",
+        "Done! You're doing great.",
+        "Nice progress!",
+        "You did it! Rest a bit.",
+        "Good work. You can relax now.",
+        "Completed! Give yourself a pat.",
+        "One more done. Keep it up!",
+        "Nice! You're making progress.",
     ],
 }
 
 SAFETY_NOTES = {
-    "snarky": "到这收手，别贪。",
-    "neutral": "可以停了。",
-    "warm": "先到这里，别累着自己。",
+    "snarky": "Stop here. Don't be greedy.",
+    "neutral": "That's enough for now.",
+    "warm": "Take it easy. Don't overdo it.",
 }
 
 SHUTDOWN_NOTES = {
-    "snarky": "今天够了，别再卷了。",
-    "neutral": "今日推荐次数已用完，收工。",
-    "warm": "今天已经很努力了，休息吧。",
+    "snarky": "Enough for today. Stop grinding.",
+    "neutral": "Daily recommendations used up. Wrap it up.",
+    "warm": "You've worked hard today. Time to rest.",
 }
 
-# 完成 parking 任务的特殊提示
+# Parking task hints
 PARKING_HINTS = {
     "snarky": {
-        "main_first": "主线任务还没动呢，不如先搞那个？",
-        "all_done": "全部搞定了？今天你是神。",
-        "bonus": "主线清了，这个算加分项。",
+        "main_first": "Main tasks aren't done yet. Maybe do those first?",
+        "all_done": "All done?! You're a god today.",
+        "bonus": "Main tasks cleared. This is a bonus.",
     },
     "neutral": {
-        "main_first": "主线任务还没完成，建议先做主线。",
-        "all_done": "恭喜，今天的任务全部完成。",
-        "bonus": "主线已完成，这个是额外收获。",
+        "main_first": "Main tasks not complete. Consider doing those first.",
+        "all_done": "Congrats! All tasks completed today.",
+        "bonus": "Main tasks done. This is extra credit.",
     },
     "warm": {
-        "main_first": "主线任务还在等你呢，要不要先去看看？",
-        "all_done": "太棒了！今天超额完成，给自己一个大大的赞！",
-        "bonus": "主线都做完了，这个算是额外的成就，真棒！",
+        "main_first": "Your main tasks are waiting! Want to check on them?",
+        "all_done": "Amazing! You went above and beyond today!",
+        "bonus": "Main tasks done! This is a bonus achievement!",
     },
 }
 
@@ -105,71 +105,71 @@ PARKING_HINTS = {
 MICRO_ACTIONS = [
     {
         "id": "log_result",
-        "title": "记录结果",
-        "steps": "把刚完成那件事的结果写一行到 state（比如确认号/关键信息）",
+        "title": "Log the result",
+        "steps": "Write down the outcome (confirmation number, key info) in state",
         "eta_seconds": 60,
         "type": "closing",
     },
     {
         "id": "open_doc",
-        "title": "打开明天要用的文档",
-        "steps": "把需要明天用的文档打开，停在那，不改",
+        "title": "Open tomorrow's doc",
+        "steps": "Open the document you'll need tomorrow. Just open it, don't edit.",
         "eta_seconds": 45,
         "type": "prep",
     },
     {
         "id": "copy_phone",
-        "title": "复制电话号码",
-        "steps": "把需要打电话的号码复制到 state 顶部",
+        "title": "Copy phone number",
+        "steps": "Copy the phone number you need to call to the top of state",
         "eta_seconds": 30,
         "type": "prep",
     },
     {
         "id": "write_first_step",
-        "title": "写下第一步",
-        "steps": "把一个任务拆成第一步，写成一句话",
+        "title": "Write the first step",
+        "steps": "Break one task into its first step. Write just one sentence.",
         "eta_seconds": 60,
         "type": "prep",
     },
     {
         "id": "drink_water",
-        "title": "喝水",
-        "steps": "站起来，倒杯水，喝掉",
+        "title": "Drink water",
+        "steps": "Stand up, pour a glass of water, drink it",
         "eta_seconds": 60,
         "type": "reset",
     },
     {
         "id": "stretch",
-        "title": "伸展 60 秒",
-        "steps": "站起来，伸展一下脖子和肩膀",
+        "title": "Stretch for 60 sec",
+        "steps": "Stand up, stretch your neck and shoulders",
         "eta_seconds": 60,
         "type": "reset",
     },
     {
         "id": "walk",
-        "title": "走动一下",
-        "steps": "离开座位，走几步，60 秒后回来",
+        "title": "Take a short walk",
+        "steps": "Leave your seat, walk around, come back in 60 seconds",
         "eta_seconds": 60,
         "type": "reset",
     },
     {
         "id": "close_tabs",
-        "title": "关掉多余标签页",
-        "steps": "把刚才做完的相关标签页关掉，只留需要的",
+        "title": "Close extra tabs",
+        "steps": "Close browser tabs related to the finished task",
         "eta_seconds": 45,
         "type": "closing",
     },
     {
         "id": "note_blocker",
-        "title": "记下卡点",
-        "steps": "如果有卡住的地方，写一句话到 state 顶部",
+        "title": "Note the blocker",
+        "steps": "If something is stuck, write one line about it at top of state",
         "eta_seconds": 45,
         "type": "closing",
     },
     {
         "id": "set_reminder",
-        "title": "设个提醒",
-        "steps": "如果明天有截止日期，打开手机设个闹钟",
+        "title": "Set a reminder",
+        "steps": "If there's a deadline tomorrow, set an alarm on your phone",
         "eta_seconds": 60,
         "type": "prep",
     },
@@ -218,7 +218,6 @@ def set_metadata(text: str, meta: Dict[str, Any]) -> str:
     meta_line = f"<!-- meta: {json.dumps(meta, ensure_ascii=False)} -->"
     lines = text.splitlines()
     new_lines = [line for line in lines if not META_RE.match(line.strip())]
-    # Add metadata at the very end
     new_lines.append("")
     new_lines.append(meta_line)
     return "\n".join(new_lines).strip()
@@ -311,7 +310,7 @@ def dedupe_preserve_order(items: List[str]) -> List[str]:
 
 
 def parse_state_sections(text: str) -> dict:
-    """解析 state.md 为结构化数据"""
+    """Parse state.md into structured data"""
     text = strip_metadata(text)
     main_content, archive_lines = split_done_archive(text)
     
@@ -325,13 +324,13 @@ def parse_state_sections(text: str) -> dict:
         line_stripped = line.strip()
         line_lower = line_stripped.lower()
         
-        if "今天做这几件" in line_stripped or "today" in line_lower:
+        if "today" in line_lower or "do these" in line_lower:
             current_section = "today"
             continue
-        elif "可以不做" in line_stripped or "parking" in line_lower:
+        elif "parking" in line_lower or "can skip" in line_lower or "not today" in line_lower:
             current_section = "parking"
             continue
-        elif "如果还有余力" in line_stripped or "extra" in line_lower:
+        elif "extra" in line_lower or "if you have energy" in line_lower:
             current_section = "extra"
             continue
         elif line_stripped.startswith("## ") or line_stripped.startswith("---"):
@@ -407,12 +406,12 @@ def update_weekly_summary(archive_lines: List[str]) -> None:
     days = sorted(by_day.keys())
     total = sum(len(v) for v in by_day.values())
     
-    lines = [f"# Done 摘要 — {y}-W{w:02d}", "", f"- 总完成条目：**{total}**"]
+    lines = [f"# Done Summary — {y}-W{w:02d}", "", f"- Total completed: **{total}**"]
     if days:
-        lines.append(f"- 覆盖日期：{days[0].isoformat()} ~ {days[-1].isoformat()}")
-    lines += ["", "## 按天", ""]
+        lines.append(f"- Date range: {days[0].isoformat()} ~ {days[-1].isoformat()}")
+    lines += ["", "## By Day", ""]
     for d in days:
-        lines.append(f"### {d.isoformat()}（{len(by_day[d])}）")
+        lines.append(f"### {d.isoformat()} ({len(by_day[d])})")
         lines.extend(f"- {item}" for item in by_day[d])
         lines.append("")
     
@@ -425,26 +424,21 @@ def update_weekly_summary(archive_lines: List[str]) -> None:
 
 def select_micro_action(completed_task: str, remaining_tasks: List[dict]) -> Optional[dict]:
     """Select a micro action based on context"""
-    # Prioritize by type
     candidates = []
     
-    # Closing actions for completed task
     closing_actions = [a for a in MICRO_ACTIONS if a["type"] == "closing"]
     candidates.extend(closing_actions)
     
-    # Prep actions if there are remaining tasks
     if remaining_tasks:
         prep_actions = [a for a in MICRO_ACTIONS if a["type"] == "prep"]
         candidates.extend(prep_actions)
     
-    # Reset actions (always available)
     reset_actions = [a for a in MICRO_ACTIONS if a["type"] == "reset"]
     candidates.extend(reset_actions)
     
     if not candidates:
         return None
     
-    # Randomly select one
     action = random.choice(candidates)
     return {
         "title": action["title"],
@@ -461,51 +455,51 @@ def generate_new_state(prompt: str, brain_dump: str, completed_today: List[str])
 
     done_context = ""
     if completed_today:
-        done_context = "（已归档的完成项，不要再列出）\n" + "\n".join(completed_today) + "\n\n"
+        done_context = "(Already archived, don't list again)\n" + "\n".join(completed_today) + "\n\n"
 
-    user_message = f"""{done_context}【用户的 brain dump / 当前状态】
+    user_message = f"""{done_context}[User's brain dump / current state]
 
-{brain_dump if brain_dump else "（空）"}
-
----
-
-请根据以上内容：
-
-1. **识别用户说完成了什么**（比如"写完了"、"做完了"、"搞定了"、"弄好了"）
-   - 如果用户说完成了某事，在最后输出一个 `## 刚完成` 区块
-
-2. **生成新的任务清单**，格式：
-
-## 今天做这几件就够了
-
-1. **任务名**  
-   → 怎么开始（15分钟内能动手）
-
-（最多 3-5 个，选最容易开始的）
+{brain_dump if brain_dump else "(empty)"}
 
 ---
 
-## 今天可以不做
+Based on the above:
 
-- 任务 — 原因
+1. **Identify what the user said they completed** (e.g. "finished", "done", "completed")
+   - If user mentioned completing something, output a `## Just Completed` section at the end
 
-（**重要：所有用户提到但没放进"今天做"的任务，必须全部放在这里，不能丢弃任何任务**）
+2. **Generate a new task list** in this format:
+
+## Today's Tasks
+
+1. **Task name**  
+   → How to start (can begin within 15 min)
+
+(Max 3-5, pick the easiest to start)
 
 ---
 
-## 如果还有余力
+## Can Skip Today
 
-- 可选任务
+- Task — Reason why it can wait
 
-## 刚完成
-- [x] {today_str} — xxx（如果用户说完成了什么）
+(**Important: All tasks mentioned but not in "Today" must go here. Don't lose any tasks.**)
 
-**关键规则（必须遵守）：**
-1. 用户提到的所有任务都不能丢失
-2. "今天做"最多 3-5 个，优先选最容易开始的
-3. 剩余的任务必须全部放到"可以不做"里，给出推迟原因
-4. 如果用户说完成了某事，放到"刚完成"区块
-5. 只输出上面的格式，不要解释"""
+---
+
+## If You Have Extra Energy
+
+- Optional task
+
+## Just Completed
+- [x] {today_str} — xxx (if user said they completed something)
+
+**Key rules (must follow):**
+1. Don't lose any tasks the user mentioned
+2. "Today" max 3-5 items, prioritize easiest to start
+3. Remaining tasks must all go to "Can Skip Today" with reasons
+4. If user said they completed something, put it in "Just Completed"
+5. Only output the format above, no explanations"""
 
     response = client.chat.completions.create(
         model=DEFAULT_MODEL,
@@ -519,19 +513,16 @@ def generate_new_state(prompt: str, brain_dump: str, completed_today: List[str])
 
 
 def run_replan() -> dict:
-    """执行重排流程，返回解析后的结果"""
+    """Execute replan flow, return parsed result"""
     prompt = read_text(PROMPT_PATH)
     raw_state = read_text(STATE_PATH)
 
     if not raw_state:
         return {"today": [], "parking": [], "extra": [], "done": []}
 
-    # Preserve metadata
     meta = get_metadata(raw_state)
     
-    # 保留原始任务部分（用于回退）
     original_main, archive_lines = split_done_archive(raw_state)
-    original_tasks_section = original_main  # 备份
     
     done_in_main = extract_done_lines(original_main)
     brain_dump = remove_done_lines(original_main)
@@ -547,39 +538,36 @@ def run_replan() -> dict:
     clean_tasks = new_tasks
     if DONE_ARCHIVE_HEADER in clean_tasks:
         clean_tasks = clean_tasks.split(DONE_ARCHIVE_HEADER, 1)[0].strip()
-    if "## 刚完成" in clean_tasks:
-        clean_tasks = clean_tasks.split("## 刚完成", 1)[0].strip()
+    if "## Just Completed" in clean_tasks:
+        clean_tasks = clean_tasks.split("## Just Completed", 1)[0].strip()
     clean_tasks = remove_done_lines(clean_tasks)
 
     combined_archive = dedupe_preserve_order(archive_lines + newly_done_from_user + model_done_normalized)
 
-    # 检查模型是否返回了有效任务
-    has_today_tasks = "今天做这几件" in clean_tasks or "## Today" in clean_tasks
+    has_today_tasks = "Today" in clean_tasks or "today" in clean_tasks.lower()
     
     if not clean_tasks.strip() or not has_today_tasks:
-        # 模型没有返回有效任务，生成一个默认状态
-        clean_tasks = """## 今天做这几件就够了
+        clean_tasks = """## Today's Tasks
 
-1. **休息一下**  
-   → 今天已经完成很多了，可以放松
-
----
-
-## 今天可以不做
-
-- 其他任务 — 明天再说
+1. **Take a break**  
+   → You've done a lot today, time to relax
 
 ---
 
-## 如果还有余力
+## Can Skip Today
 
-- 想想明天要做什么"""
+- Other tasks — Tomorrow
+
+---
+
+## If You Have Extra Energy
+
+- Think about what to do tomorrow"""
 
     final_state = clean_tasks
     if combined_archive:
         final_state += f"\n\n{DONE_ARCHIVE_HEADER}\n" + "\n".join(combined_archive)
     
-    # Restore metadata
     if meta:
         final_state = set_metadata(final_state, meta)
 
@@ -641,42 +629,40 @@ async def set_style(req: StyleRequest):
 
 
 def detect_all_done(text: str) -> tuple[bool, bool]:
-    """检测用户是否说所有事都做完了
-    返回 (today_all_done, include_parking)
+    """Detect if user said everything is done
+    Returns (today_all_done, include_parking)
     """
-    # 先检测是否包括 parking（所有所有、全部全部、连XX也）
     include_parking_patterns = [
-        r"所有.{0,3}所有",
-        r"全部.{0,3}全部",
-        r"连.{0,10}(?:可以不做|parking|不做的|可以不做的).{0,5}也",
-        r"(?:可以不做|不做的).{0,5}也.{0,5}(?:做完|完成|搞定)",
-        r"彻底.{0,5}(?:清空|做完|完成)",
-        r"一个不剩",
-        r"统统",
+        r"all\s*all",
+        r"everything.*everything",
+        r"including.*parking",
+        r"parking.*too",
+        r"completely.*clear",
+        r"nothing.*left",
+        r"totally.*done",
     ]
     
     include_parking = False
     for pattern in include_parking_patterns:
-        if re.search(pattern, text):
+        if re.search(pattern, text, re.IGNORECASE):
             include_parking = True
             break
     
-    # 如果检测到 include_parking，自动认为 today 也要清
     if include_parking:
         return (True, True)
     
-    # 检测基本的"全部完成"
     all_done_patterns = [
-        r"所有.{0,5}(?:都|全|已).{0,5}(?:做完|完成|搞定)",
-        r"(?:都|全部|全).{0,5}(?:做完|完成|搞定)",
-        r"(?:做完|完成|搞定).{0,5}(?:所有|全部|都)",
-        r"清空了",
-        r"全清了",
+        r"all.*done",
+        r"everything.*done",
+        r"finished.*all",
+        r"completed.*all",
+        r"cleared",
+        r"all\s*clear",
     ]
     
     today_done = False
     for pattern in all_done_patterns:
-        if re.search(pattern, text):
+        if re.search(pattern, text, re.IGNORECASE):
             today_done = True
             break
     
@@ -684,39 +670,35 @@ def detect_all_done(text: str) -> tuple[bool, bool]:
 
 
 def detect_completed_items(text: str) -> List[str]:
-    """检测用户输入中的完成语句"""
+    """Detect completed items from user input"""
     completed = []
-    # 常见的完成表达
     patterns = [
-        r"(?:做完了|完成了|搞定了|弄好了|写完了|交了|发了|打了|回了|改完了)[:：]?\s*(.+?)(?:[,，。\n]|$)",
-        r"(.+?)(?:做完了|完成了|搞定了|弄好了|写完了)",
+        r"(?:finished|done|completed|submitted|sent|called|replied)[:：]?\s*(.+?)(?:[,，。\n]|$)",
+        r"(.+?)(?:is done|is finished|is completed)",
     ]
     for pattern in patterns:
         matches = re.findall(pattern, text, re.IGNORECASE)
         for m in matches:
             item = m.strip()
-            if item and len(item) < 50:  # 合理长度
+            if item and len(item) < 50:
                 completed.append(item)
-    return list(set(completed))[:3]  # 最多3个
+    return list(set(completed))[:3]
 
 
 @app.post("/api/capture")
 async def capture(req: CaptureRequest):
-    """追加文本到 state.md 顶部，然后重排"""
+    """Append text to state.md and replan"""
     raw_state = read_text(STATE_PATH)
     meta = get_metadata(raw_state)
     style = get_praise_style()
     
-    # 先解析当前状态
     current_state = parse_state_sections(strip_metadata(raw_state))
     today_tasks = current_state.get("today", [])
     parking_tasks = current_state.get("parking", [])
     
-    # 检测用户是否说"所有事都做完了"
     today_done, include_parking = detect_all_done(req.text)
     
     if today_done and (today_tasks or parking_tasks):
-        # 返回所有任务作为待确认
         all_task_names = [t["name"] for t in today_tasks]
         parking_task_names = [p["name"] for p in parking_tasks] if include_parking else []
         
@@ -725,11 +707,10 @@ async def capture(req: CaptureRequest):
             "praise": None,
             "pending_confirm": all_task_names,
             "pending_parking": parking_task_names if include_parking else None,
-            "confirm_all": True,  # 标记这是"全部完成"的确认
+            "confirm_all": True,
             "include_parking": include_parking,
         }
     
-    # 检测用户是否说完成了具体的事
     detected_completed = detect_completed_items(req.text)
     
     _, old_archive = split_done_archive(raw_state)
@@ -745,7 +726,6 @@ async def capture(req: CaptureRequest):
     new_done_count = len(result.get("done", []))
     praise = None
     
-    # 如果检测到完成项，返回待确认列表（不直接夸）
     if detected_completed:
         return {
             "state": result, 
@@ -753,7 +733,6 @@ async def capture(req: CaptureRequest):
             "pending_confirm": detected_completed,
         }
     
-    # 没有检测到完成项，但模型识别出了（直接夸）
     if new_done_count > old_done_count:
         praise = random.choice(PRAISE_POOLS.get(style, PRAISE_POOLS["neutral"]))
     
@@ -762,13 +741,12 @@ async def capture(req: CaptureRequest):
 
 @app.post("/api/complete")
 async def complete(req: CompleteRequest):
-    """完成某个任务，返回 Aftercare"""
+    """Complete a task, return Aftercare"""
     raw_state = read_text(STATE_PATH)
     meta = get_metadata(raw_state)
     today_str = date.today().isoformat()
     style = get_praise_style()
     
-    # Find and mark task as complete
     lines = strip_metadata(raw_state).splitlines()
     new_lines = []
     found = False
@@ -783,28 +761,23 @@ async def complete(req: CompleteRequest):
         new_lines.append(line)
     
     if req.note:
-        new_lines.insert(0, f"[{timestamp_human()}] 完成感想：{req.note}\n")
+        new_lines.insert(0, f"[{timestamp_human()}] Note: {req.note}\n")
     
     new_content = "\n".join(new_lines)
     if meta:
         new_content = set_metadata(new_content, meta)
     write_text(STATE_PATH, new_content)
     
-    # Replan
     result = run_replan()
     
-    # 强制从 today 列表中移除刚完成的任务（防止模型又加回来）
     completed_task_lower = req.task_text.lower()
     result["today"] = [t for t in result.get("today", []) if completed_task_lower not in t.get("name", "").lower()]
     
-    # Generate Aftercare response
     praise = random.choice(PRAISE_POOLS.get(style, PRAISE_POOLS["neutral"]))
     
-    # Check micro action limit
     current_count = get_micro_action_count()
     
     if current_count >= MAX_MICRO_ACTIONS_PER_DAY:
-        # Exceeded limit
         return {
             "state": result,
             "praise": praise,
@@ -814,14 +787,13 @@ async def complete(req: CompleteRequest):
             "safety_note": SHUTDOWN_NOTES.get(style, SHUTDOWN_NOTES["neutral"]),
         }
     
-    # Select micro action
     micro_action = select_micro_action(req.task_text, result.get("today", []))
     
     return {
         "state": result,
         "praise": praise,
         "praise_style": style,
-        "ask": "要不要顺便做个小动作？" if micro_action else None,
+        "ask": "Want to do a quick micro-action?" if micro_action else None,
         "micro_action": micro_action,
         "safety_note": SAFETY_NOTES.get(style, SAFETY_NOTES["neutral"]),
     }
@@ -838,7 +810,7 @@ class CompleteAllRequest(BaseModel):
 
 @app.post("/api/complete_all")
 async def complete_all(req: CompleteAllRequest):
-    """一键完成所有任务（可选包括 parking）- 不调用 AI，直接归档"""
+    """Complete all tasks at once (optionally including parking) - no AI call"""
     raw_state = read_text(STATE_PATH)
     meta = get_metadata(raw_state)
     style = get_praise_style()
@@ -846,31 +818,27 @@ async def complete_all(req: CompleteAllRequest):
     
     all_tasks = req.tasks + (req.parking_tasks or [])
     
-    # 获取现有归档
     _, existing_archive = split_done_archive(raw_state)
     
-    # 为所有任务创建归档条目
     new_done_lines = [f"- [x] {today_str} — {task}" for task in all_tasks]
     
-    # 合并归档（新的在前）
     combined_archive = dedupe_preserve_order(new_done_lines + existing_archive)
     
-    # 生成简洁的新 state（不调用 AI）
-    new_state = f"""## 今天做这几件就够了
+    new_state = f"""## Today's Tasks
 
-（全部完成！🎉）
-
----
-
-## 今天可以不做
-
-（也全部完成了！）
+(All done! 🎉)
 
 ---
 
-## 如果还有余力
+## Can Skip Today
 
-- 好好休息
+(Also all done!)
+
+---
+
+## If You Have Extra Energy
+
+- Rest well
 
 {DONE_ARCHIVE_HEADER}
 {chr(10).join(combined_archive)}"""
@@ -880,32 +848,27 @@ async def complete_all(req: CompleteAllRequest):
     
     write_text(STATE_PATH, new_state)
     
-    # 保存快照
     RUNS_DIR.mkdir(exist_ok=True)
     write_text(RUNS_DIR / f"state_{timestamp()}.md", new_state)
     
-    # 更新周报
     update_weekly_summary(combined_archive)
     
-    # 解析结果
     result = {
         "today": [],
         "parking": [],
-        "extra": ["好好休息"],
+        "extra": ["Rest well"],
         "done": [{"date": today_str, "text": t} for t in all_tasks] + 
                 [{"date": d.get("date", ""), "text": d.get("text", "")} 
                  for d in parse_state_sections(raw_state).get("done", [])],
     }
     
-    # 返回恭喜
     hints = PARKING_HINTS.get(style, PARKING_HINTS["neutral"])
     
-    # 更强烈的恭喜（如果包括 parking）
     if req.parking_tasks:
         super_praise = {
-            "snarky": "全清了？！你今天是不是吃了什么？太猛了。",
-            "neutral": "恭喜，今天所有任务（包括可选）全部完成。",
-            "warm": "太棒了！！所有所有任务都完成了！今天的你超级厉害！🎉",
+            "snarky": "All clear?! What did you eat today? Beast mode.",
+            "neutral": "Congrats! All tasks (including optional) completed.",
+            "warm": "Amazing!! You finished absolutely everything! You're incredible today! 🎉",
         }
         praise = super_praise.get(style, super_praise["neutral"])
     else:
@@ -927,24 +890,21 @@ class CompleteParkingRequest(BaseModel):
 
 @app.post("/api/complete_parking")
 async def complete_parking(req: CompleteParkingRequest):
-    """完成 parking 任务，根据情况给出不同反馈"""
+    """Complete a parking task with conditional feedback"""
     raw_state = read_text(STATE_PATH)
     meta = get_metadata(raw_state)
     style = get_praise_style()
     
-    # 先解析当前状态
     current_state = parse_state_sections(strip_metadata(raw_state))
     today_tasks = current_state.get("today", [])
     parking_tasks = current_state.get("parking", [])
     done_count = len(current_state.get("done", []))
     
-    # 标记任务完成
     lines = strip_metadata(raw_state).splitlines()
     new_lines = []
     found = False
     
     for line in lines:
-        # 匹配 parking 任务行 (- xxx — reason)
         if req.task_name in line and "—" in line and not found:
             new_lines.append(f"- [x] {req.task_name}")
             found = True
@@ -952,31 +912,26 @@ async def complete_parking(req: CompleteParkingRequest):
         new_lines.append(line)
     
     if req.note:
-        new_lines.insert(0, f"[{timestamp_human()}] 完成感想：{req.note}\n")
+        new_lines.insert(0, f"[{timestamp_human()}] Note: {req.note}\n")
     
     new_content = "\n".join(new_lines)
     if meta:
         new_content = set_metadata(new_content, meta)
     write_text(STATE_PATH, new_content)
     
-    # 重排
     result = run_replan()
     
-    # 从 parking 中移除刚完成的
     task_lower = req.task_name.lower()
     result["parking"] = [p for p in result.get("parking", []) if task_lower not in p.get("name", "").lower()]
     
-    # 判断情况
     hints = PARKING_HINTS.get(style, PARKING_HINTS["neutral"])
     remaining_today = result.get("today", [])
     remaining_parking = result.get("parking", [])
     new_done_count = len(result.get("done", []))
     
-    # 情况1：主线任务一个都没做完（done 数量没变或只增加了刚完成的 parking）
-    main_done_today = new_done_count - done_count - 1  # 减去刚完成的 parking
+    main_done_today = new_done_count - done_count - 1
     
     if len(remaining_today) > 0 and main_done_today <= 0:
-        # 主线还没动
         return {
             "state": result,
             "praise": random.choice(PRAISE_POOLS.get(style, PRAISE_POOLS["neutral"])),
@@ -987,7 +942,6 @@ async def complete_parking(req: CompleteParkingRequest):
             "safety_note": SAFETY_NOTES.get(style, SAFETY_NOTES["neutral"]),
         }
     
-    # 情况2：所有任务都完成了
     if len(remaining_today) == 0 and len(remaining_parking) == 0:
         return {
             "state": result,
@@ -999,9 +953,7 @@ async def complete_parking(req: CompleteParkingRequest):
             "safety_note": None,
         }
     
-    # 情况3：主线做完了，这个是额外的
     if len(remaining_today) == 0:
-        # 推荐一个 parking 任务到 today（如果还有的话）
         recommend = None
         if remaining_parking:
             recommend = remaining_parking[0]
@@ -1017,7 +969,6 @@ async def complete_parking(req: CompleteParkingRequest):
             "safety_note": SAFETY_NOTES.get(style, SAFETY_NOTES["neutral"]),
         }
     
-    # 默认情况
     return {
         "state": result,
         "praise": random.choice(PRAISE_POOLS.get(style, PRAISE_POOLS["neutral"])),
@@ -1031,27 +982,23 @@ async def complete_parking(req: CompleteParkingRequest):
 
 @app.post("/api/confirm_done")
 async def confirm_done(req: ConfirmDoneRequest):
-    """用户确认完成某事，归档并返回夸夸"""
+    """User confirms completing something, archive and return praise"""
     raw_state = read_text(STATE_PATH)
     meta = get_metadata(raw_state)
     today_str = date.today().isoformat()
     style = get_praise_style()
     
-    # 添加完成项到 state
     done_line = f"- [x] {req.item}"
     new_content = f"{done_line}\n\n{strip_metadata(raw_state)}"
     if meta:
         new_content = set_metadata(new_content, meta)
     write_text(STATE_PATH, new_content)
     
-    # 重排
     result = run_replan()
     
-    # 强制从 today 列表中移除刚完成的任务
     completed_item_lower = req.item.lower()
     result["today"] = [t for t in result.get("today", []) if completed_item_lower not in t.get("name", "").lower()]
     
-    # 返回夸夸 + Aftercare
     praise = random.choice(PRAISE_POOLS.get(style, PRAISE_POOLS["neutral"]))
     
     current_count = get_micro_action_count()
@@ -1071,7 +1018,7 @@ async def confirm_done(req: ConfirmDoneRequest):
         "state": result,
         "praise": praise,
         "praise_style": style,
-        "ask": "要不要顺便做个小动作？" if micro_action else None,
+        "ask": "Want to do a quick micro-action?" if micro_action else None,
         "micro_action": micro_action,
         "safety_note": SAFETY_NOTES.get(style, SAFETY_NOTES["neutral"]),
     }
@@ -1080,19 +1027,16 @@ async def confirm_done(req: ConfirmDoneRequest):
 @app.post("/api/accept_micro")
 async def accept_micro(req: MicroActionRequest):
     """User accepted micro action"""
-    # Increment counter
     increment_micro_action_count()
     
-    # Append to state.md
     raw_state = read_text(STATE_PATH)
     meta = get_metadata(raw_state)
     
-    new_content = f"[{timestamp_human()}] 我选择顺便做：{req.action_title}\n\n{strip_metadata(raw_state)}"
+    new_content = f"[{timestamp_human()}] Chose to do: {req.action_title}\n\n{strip_metadata(raw_state)}"
     if meta:
         new_content = set_metadata(new_content, meta)
     write_text(STATE_PATH, new_content)
     
-    # Replan
     result = run_replan()
     return {"state": result}
 

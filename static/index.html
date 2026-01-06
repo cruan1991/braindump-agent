@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,7 +95,6 @@
     .btn-mic.recording { background: #ff4a4a; color: #fff; border-color: #ff4a4a; }
     .btn-mic:disabled { opacity: 0.3; cursor: not-allowed; }
     
-    /* Boxes */
     .aftercare, .confirm-box, .congrats-box, .clear-all-box {
       border-radius: 8px;
       padding: 1rem;
@@ -156,13 +155,11 @@
     .btn-decline { background: #3a3a3a; color: #888; font-size: 0.85rem; padding: 0.5rem 1rem; }
     .btn-decline:hover { background: #4a4a4a; }
     
-    /* Congrats */
     .congrats-emoji { font-size: 4rem; margin-bottom: 1rem; }
     .congrats-title { font-size: 1.8rem; color: #8fdf8f; margin-bottom: 0.5rem; }
     .congrats-sub { color: #ccc; font-size: 1.1rem; }
     .btn-close-congrats { margin-top: 1.5rem; background: #3a3a3a; color: #ccc; }
     
-    /* Fireworks */
     .firework {
       position: fixed;
       width: 10px;
@@ -193,7 +190,6 @@
       100% { opacity: 0; transform: scale(0) translateY(100px); }
     }
     
-    /* Recommend box */
     .recommend-box {
       background: #3a3a4a;
       padding: 0.75rem;
@@ -309,53 +305,49 @@
     <header>
       <h1>BrainDump</h1>
       <div class="style-selector">
-        <button class="style-btn" data-style="snarky">毒舌</button>
-        <button class="style-btn" data-style="neutral">中性</button>
-        <button class="style-btn" data-style="warm">温柔</button>
+        <button class="style-btn" data-style="snarky">Snarky</button>
+        <button class="style-btn" data-style="neutral">Neutral</button>
+        <button class="style-btn" data-style="warm">Warm</button>
       </div>
     </header>
     
     <div class="input-area">
-      <textarea id="input" placeholder="随便写点什么...&#10;待办、碎念、焦虑、新想法都行"></textarea>
+      <textarea id="input" placeholder="Type anything...&#10;Tasks, thoughts, worries, ideas"></textarea>
       <div class="input-actions">
-        <button class="btn-mic" id="micBtn" title="语音输入">🎤</button>
-        <button class="btn-primary" id="replanBtn">重排一下</button>
+        <button class="btn-mic" id="micBtn" title="Voice input">🎤</button>
+        <button class="btn-primary" id="replanBtn">Replan</button>
       </div>
     </div>
     
-    <!-- 一键清空确认 -->
     <div class="clear-all-box" id="clearAllBox">
-      <div class="clear-all-title" id="clearAllTitle">🎯 一键清空？</div>
-      <div class="clear-all-count" id="clearAllCount">共 X 个任务</div>
+      <div class="clear-all-title" id="clearAllTitle">🎯 Clear all?</div>
+      <div class="clear-all-count" id="clearAllCount">X tasks total</div>
       <div class="clear-all-detail" id="clearAllDetail"></div>
-      <button class="btn-clear-all" id="clearAllBtn">✨ 全部完成！</button>
-      <button class="btn-cancel-clear" id="cancelClearBtn">算了</button>
+      <button class="btn-clear-all" id="clearAllBtn">✨ All Done!</button>
+      <button class="btn-cancel-clear" id="cancelClearBtn">Cancel</button>
     </div>
     
-    <!-- 确认完成 -->
     <div class="confirm-box" id="confirmBox">
-      <div class="confirm-question" id="confirmQuestion">是否已完成 XXX？</div>
+      <div class="confirm-question" id="confirmQuestion">Did you complete XXX?</div>
       <div class="confirm-actions">
-        <button class="btn-yes" id="confirmYes">是的，完成了</button>
-        <button class="btn-no" id="confirmNo">还没</button>
+        <button class="btn-yes" id="confirmYes">Yes, done!</button>
+        <button class="btn-no" id="confirmNo">Not yet</button>
       </div>
     </div>
     
-    <!-- 恭喜界面 -->
     <div class="congrats-box" id="congratsBox">
       <div class="congrats-emoji">🎉</div>
-      <div class="congrats-title" id="congratsTitle">太棒了！</div>
-      <div class="congrats-sub" id="congratsSub">今天的任务全部完成！</div>
-      <button class="btn-close-congrats" id="closeCongrats">收工</button>
+      <div class="congrats-title" id="congratsTitle">Awesome!</div>
+      <div class="congrats-sub" id="congratsSub">All tasks completed today!</div>
+      <button class="btn-close-congrats" id="closeCongrats">Close</button>
     </div>
     
-    <!-- Aftercare -->
     <div class="aftercare" id="aftercare">
       <div class="aftercare-praise" id="aftercarePraise"></div>
       <div class="aftercare-hint" id="aftercareHint" style="display:none;"></div>
       <div class="aftercare-safety" id="aftercareSafety"></div>
       <div id="recommendBox" class="recommend-box" style="display:none;">
-        <div class="recommend-title">主线清完了，要不要继续？</div>
+        <div class="recommend-title">Main tasks done. Want to continue?</div>
         <div class="recommend-task" id="recommendTask"></div>
       </div>
       <div id="microSection" style="display:none;">
@@ -366,25 +358,25 @@
           <div class="micro-eta" id="microEta"></div>
         </div>
         <div class="aftercare-actions">
-          <button class="btn-accept" id="acceptBtn">顺便做</button>
-          <button class="btn-decline" id="declineBtn">不了</button>
+          <button class="btn-accept" id="acceptBtn">Do it</button>
+          <button class="btn-decline" id="declineBtn">No thanks</button>
         </div>
       </div>
     </div>
     
     <div class="section" id="todaySection">
-      <div class="section-title">今天做这几件</div>
+      <div class="section-title">Today's Tasks</div>
       <ul class="task-list" id="todayList"></ul>
     </div>
     
     <div class="section" id="parkingSection">
-      <div class="section-title">可以不做</div>
+      <div class="section-title">Can Skip Today</div>
       <div id="parkingList"></div>
     </div>
     
     <div class="section">
       <button class="done-toggle" id="doneToggle">
-        <span>▶</span> 已完成 (<span id="doneCount">0</span>)
+        <span>▶</span> Completed (<span id="doneCount">0</span>)
       </button>
       <div class="done-list" id="doneList"></div>
     </div>
@@ -392,22 +384,22 @@
   
   <div class="modal-overlay" id="modal">
     <div class="modal">
-      <h3>完成：<span id="modalTask"></span></h3>
-      <textarea id="noteInput" placeholder="写两句感想（可选）"></textarea>
+      <h3>Done: <span id="modalTask"></span></h3>
+      <textarea id="noteInput" placeholder="Any thoughts? (optional)"></textarea>
       <div class="modal-actions">
-        <button class="btn-cancel" id="cancelBtn">取消</button>
-        <button class="btn-primary" id="confirmBtn">完成</button>
+        <button class="btn-cancel" id="cancelBtn">Cancel</button>
+        <button class="btn-primary" id="confirmBtn">Complete</button>
       </div>
     </div>
   </div>
   
   <div class="modal-overlay" id="parkingModal">
     <div class="modal">
-      <h3>完成：<span id="parkingModalTask"></span></h3>
-      <textarea id="parkingNoteInput" placeholder="写两句感想（可选）"></textarea>
+      <h3>Done: <span id="parkingModalTask"></span></h3>
+      <textarea id="parkingNoteInput" placeholder="Any thoughts? (optional)"></textarea>
       <div class="modal-actions">
-        <button class="btn-cancel" id="parkingCancelBtn">取消</button>
-        <button class="btn-primary" id="parkingConfirmBtn">完成</button>
+        <button class="btn-cancel" id="parkingCancelBtn">Cancel</button>
+        <button class="btn-primary" id="parkingConfirmBtn">Complete</button>
       </div>
     </div>
   </div>
@@ -425,7 +417,6 @@
     let pendingClearAllTasks = [];
     let pendingClearAllParking = [];
     
-    // Fireworks effect
     function createFireworks() {
       const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fff', '#6bfff6'];
       const count = 50;
@@ -445,7 +436,6 @@
       }
     }
     
-    // Speech recognition
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
     let isRecording = false;
@@ -454,7 +444,7 @@
       recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = 'zh-CN';
+      recognition.lang = 'en-US';
       recognition.onresult = (e) => {
         const text = e.results[0][0].transcript;
         $('#input').value += (($('#input').value ? ' ' : '') + text);
@@ -504,7 +494,7 @@
     function render(state) {
       const todayList = $('#todayList');
       if (state.today.length === 0) {
-        todayList.innerHTML = '<div class="empty">暂无任务</div>';
+        todayList.innerHTML = '<div class="empty">No tasks</div>';
       } else {
         todayList.innerHTML = state.today.map(t => `
           <li class="task-item">
@@ -512,7 +502,7 @@
               <div class="task-name">${escapeHtml(t.name)}</div>
               ${t.hint ? `<div class="task-hint">→ ${escapeHtml(t.hint)}</div>` : ''}
             </div>
-            <button class="btn-done" data-task="${escapeHtml(t.name)}">完成</button>
+            <button class="btn-done" data-task="${escapeHtml(t.name)}">Done</button>
           </li>
         `).join('');
       }
@@ -527,14 +517,14 @@
               <div class="parking-name">${escapeHtml(p.name)}</div>
               <div class="parking-reason">— ${escapeHtml(p.reason)}</div>
             </div>
-            <button class="btn-parking-done" data-task="${escapeHtml(p.name)}">做完了</button>
+            <button class="btn-parking-done" data-task="${escapeHtml(p.name)}">Done</button>
           </div>
         `).join('');
       }
       
       $('#doneCount').textContent = state.done.length;
       if (state.done.length === 0) {
-        $('#doneList').innerHTML = '<div class="empty">还没有完成的事</div>';
+        $('#doneList').innerHTML = '<div class="empty">Nothing completed yet</div>';
       } else {
         $('#doneList').innerHTML = state.done.map(d => `
           <div class="done-item">${d.date ? `<span class="done-date">${d.date}</span>` : ''}${escapeHtml(d.text)}</div>
@@ -551,7 +541,6 @@
       return div.innerHTML;
     }
     
-    // Clear All
     function showClearAllBox(tasks, parkingTasks = null) {
       pendingClearAllTasks = tasks;
       pendingClearAllParking = parkingTasks || [];
@@ -559,18 +548,18 @@
       const totalCount = tasks.length + pendingClearAllParking.length;
       
       if (pendingClearAllParking.length > 0) {
-        $('#clearAllTitle').textContent = '🚀 彻底清空！';
-        $('#clearAllCount').textContent = `共 ${totalCount} 个任务`;
+        $('#clearAllTitle').textContent = '🚀 Clear everything!';
+        $('#clearAllCount').textContent = `${totalCount} tasks total`;
         $('#clearAllDetail').innerHTML = `
-          <div>📋 主线任务：${tasks.length} 个</div>
-          <div class="parking-note">⭐ 可以不做：${pendingClearAllParking.length} 个</div>
+          <div>📋 Main tasks: ${tasks.length}</div>
+          <div class="parking-note">⭐ Optional: ${pendingClearAllParking.length}</div>
         `;
-        $('#clearAllBtn').textContent = '🎆 全部全部完成！';
+        $('#clearAllBtn').textContent = '🎆 All All Done!';
       } else {
-        $('#clearAllTitle').textContent = '🎯 一键清空？';
-        $('#clearAllCount').textContent = `共 ${tasks.length} 个任务`;
+        $('#clearAllTitle').textContent = '🎯 Clear all?';
+        $('#clearAllCount').textContent = `${tasks.length} tasks`;
         $('#clearAllDetail').innerHTML = '';
-        $('#clearAllBtn').textContent = '✨ 全部完成！';
+        $('#clearAllBtn').textContent = '✨ All Done!';
       }
       
       $('#clearAllBox').classList.add('show');
@@ -586,7 +575,7 @@
       if (pendingClearAllTasks.length === 0 && pendingClearAllParking.length === 0) return;
       
       $('#clearAllBtn').disabled = true;
-      $('#clearAllBtn').textContent = '处理中...';
+      $('#clearAllBtn').textContent = 'Processing...';
       
       const body = { tasks: pendingClearAllTasks };
       if (pendingClearAllParking.length > 0) {
@@ -598,7 +587,6 @@
       hideClearAllBox();
       render(res.state);
       
-      // 放礼花！包括 parking 时多放一波
       createFireworks();
       setTimeout(createFireworks, 300);
       setTimeout(createFireworks, 600);
@@ -607,16 +595,14 @@
         setTimeout(createFireworks, 1200);
       }
       
-      // 显示恭喜
       showCongrats(res.praise, res.completed_count);
       
       $('#clearAllBtn').disabled = false;
-      $('#clearAllBtn').textContent = '✨ 全部完成！';
+      $('#clearAllBtn').textContent = '✨ All Done!';
     };
     
     $('#cancelClearBtn').onclick = hideClearAllBox;
     
-    // Confirm box (for single items)
     function showConfirmBox(items) {
       pendingConfirmItems = items;
       currentConfirmIndex = 0;
@@ -629,7 +615,7 @@
         return;
       }
       const item = pendingConfirmItems[currentConfirmIndex];
-      $('#confirmQuestion').textContent = `是否已完成「${item}」？`;
+      $('#confirmQuestion').textContent = `Did you complete "${item}"?`;
       $('#confirmBox').classList.add('show');
     }
     
@@ -656,7 +642,7 @@
       }
       
       $('#confirmYes').disabled = false;
-      $('#confirmYes').textContent = '是的，完成了';
+      $('#confirmYes').textContent = 'Yes, done!';
       
       currentConfirmIndex++;
       if (currentConfirmIndex < pendingConfirmItems.length && !res.all_done) {
@@ -671,10 +657,9 @@
       showNextConfirm();
     };
     
-    // Congrats
     function showCongrats(title, count) {
-      $('#congratsTitle').textContent = title || '太棒了！';
-      $('#congratsSub').textContent = count ? `完成了 ${count} 个任务！` : '今天的任务全部完成！';
+      $('#congratsTitle').textContent = title || 'Awesome!';
+      $('#congratsSub').textContent = count ? `Completed ${count} tasks!` : 'All tasks done today!';
       $('#congratsBox').classList.add('show');
     }
     
@@ -682,7 +667,6 @@
       $('#congratsBox').classList.remove('show');
     };
     
-    // Aftercare
     function showAftercare(data) {
       if (data.all_done) {
         createFireworks();
@@ -713,7 +697,7 @@
         $('#aftercareAsk').textContent = data.ask;
         $('#microTitle').textContent = data.micro_action.title;
         $('#microSteps').textContent = data.micro_action.steps;
-        $('#microEta').textContent = `约 ${data.micro_action.eta_seconds} 秒`;
+        $('#microEta').textContent = `~${data.micro_action.eta_seconds} sec`;
         $('#microSection').style.display = 'block';
       } else {
         $('#microSection').style.display = 'none';
@@ -736,12 +720,11 @@
       render(res.state);
       hideAftercare();
       $('#acceptBtn').disabled = false;
-      $('#acceptBtn').textContent = '顺便做';
+      $('#acceptBtn').textContent = 'Do it';
     };
     
     $('#declineBtn').onclick = hideAftercare;
     
-    // Modal for today task
     function openModal(taskName) {
       currentTask = taskName;
       $('#modalTask').textContent = taskName;
@@ -769,10 +752,9 @@
       showAftercare(res);
       
       $('#confirmBtn').disabled = false;
-      $('#confirmBtn').textContent = '完成';
+      $('#confirmBtn').textContent = 'Complete';
     };
     
-    // Modal for parking task
     function openParkingModal(taskName) {
       currentParkingTask = taskName;
       $('#parkingModalTask').textContent = taskName;
@@ -803,22 +785,20 @@
       showAftercare(res);
       
       $('#parkingConfirmBtn').disabled = false;
-      $('#parkingConfirmBtn').textContent = '完成';
+      $('#parkingConfirmBtn').textContent = 'Complete';
     };
     
-    // Replan
     $('#replanBtn').onclick = async () => {
       const text = $('#input').value.trim();
       if (!text) return;
       
       $('#replanBtn').disabled = true;
-      $('#replanBtn').textContent = '处理中...';
+      $('#replanBtn').textContent = 'Processing...';
       
       const res = await api('/api/capture', 'POST', { text });
       render(res.state);
       $('#input').value = '';
       
-      // 检测是否是"全部完成"的确认
       if (res.confirm_all && res.pending_confirm && res.pending_confirm.length > 0) {
         showClearAllBox(res.pending_confirm, res.pending_parking);
       } else if (res.pending_confirm && res.pending_confirm.length > 0) {
@@ -834,10 +814,9 @@
       }
       
       $('#replanBtn').disabled = false;
-      $('#replanBtn').textContent = '重排一下';
+      $('#replanBtn').textContent = 'Replan';
     };
     
-    // Done toggle
     $('#doneToggle').onclick = () => {
       const list = $('#doneList');
       const arrow = $('#doneToggle span');
@@ -845,7 +824,6 @@
       arrow.textContent = list.classList.contains('show') ? '▼' : '▶';
     };
     
-    // Init
     (async () => {
       const state = await api('/api/state');
       render(state);

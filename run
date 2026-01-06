@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -e
+
+# BrainDump Agent runner
+# Usage: ./run
+
+cd "$(dirname "$0")"
+
+# 检查 API Key
+if [ -z "$GROQ_API_KEY" ]; then
+  echo "❌ GROQ_API_KEY 未设置"
+  echo "   请运行: export GROQ_API_KEY='your_key'"
+  echo "   免费获取: https://console.groq.com"
+  exit 1
+fi
+
+# 找 Python
+if command -v python3 >/dev/null 2>&1; then
+  PY=python3
+elif command -v python >/dev/null 2>&1; then
+  PY=python
+else
+  echo "❌ Python not found."
+  exit 1
+fi
+
+echo "▶ Running BrainDump Agent..."
+$PY -m uvicorn app:app --host 127.0.0.1 --port 8000

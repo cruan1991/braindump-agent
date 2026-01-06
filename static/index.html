@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrainDump</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 2rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    .container { max-width: 600px; margin: 0 auto; position: relative; z-index: 1; }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 { font-size: 1.5rem; font-weight: 500; color: #888; }
+    
+    .style-selector {
+      display: flex;
+      gap: 0.25rem;
+      background: #2a2a2a;
+      padding: 0.25rem;
+      border-radius: 6px;
+    }
+    
+    .style-btn {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      border: none;
+      background: transparent;
+      color: #666;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    
+    .style-btn:hover { color: #888; }
+    .style-btn.active { background: #3a3a3a; color: #e0e0e0; }
+    
+    .input-area { margin-bottom: 2rem; }
+    
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      color: #e0e0e0;
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    textarea:focus { outline: none; border-color: #4a9eff; }
+    textarea::placeholder { color: #666; }
+    
+    .input-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+    
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .btn-primary { background: #4a9eff; color: #fff; }
+    .btn-primary:hover { background: #3a8eef; }
+    .btn-primary:disabled { background: #3a3a3a; color: #666; cursor: not-allowed; }
+    
+    .btn-mic {
+      background: #2a2a2a;
+      color: #888;
+      border: 1px solid #3a3a3a;
+      font-size: 1.2rem;
+      padding: 0.6rem 0.8rem;
+    }
+    .btn-mic:hover { background: #3a3a3a; }
+    .btn-mic.recording { background: #ff4a4a; color: #fff; border-color: #ff4a4a; }
+    .btn-mic:disabled { opacity: 0.3; cursor: not-allowed; }
+    
+    /* Boxes */
+    .aftercare, .confirm-box, .congrats-box, .clear-all-box {
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+    .aftercare.show, .confirm-box.show, .congrats-box.show, .clear-all-box.show { display: block; }
+    
+    .aftercare { background: #2d3a2d; }
+    .confirm-box { background: #3a3a2d; }
+    .clear-all-box { background: #2d3a4a; text-align: center; padding: 1.5rem; }
+    
+    .clear-all-title { font-size: 1.1rem; color: #80c0ff; margin-bottom: 0.5rem; }
+    .clear-all-count { color: #aaa; margin-bottom: 0.5rem; }
+    .clear-all-detail { color: #888; font-size: 0.85rem; margin-bottom: 1rem; }
+    .clear-all-detail .parking-note { color: #ffd93d; }
+    .btn-clear-all { 
+      background: linear-gradient(135deg, #4a9eff, #8a6eff); 
+      color: #fff; 
+      font-size: 1rem;
+      padding: 0.75rem 2rem;
+    }
+    .btn-clear-all:hover { opacity: 0.9; }
+    .btn-cancel-clear { background: #3a3a3a; color: #888; margin-left: 0.5rem; }
+    
+    .congrats-box { 
+      background: linear-gradient(135deg, #2d4a3d, #3a4a2d);
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .confirm-question { color: #e0d080; margin-bottom: 0.75rem; }
+    .confirm-actions { display: flex; gap: 0.5rem; }
+    .btn-yes { background: #4a9eff; color: #fff; font-size: 0.85rem; padding: 0.5rem 1rem; }
+    .btn-no { background: #3a3a3a; color: #888; font-size: 0.85rem; padding: 0.5rem 1rem; }
+    .btn-no:hover { background: #4a4a4a; }
+    
+    .aftercare-praise { color: #8fdf8f; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .aftercare-hint { color: #e0d080; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .aftercare-safety { color: #888; font-size: 0.85rem; margin-bottom: 1rem; }
+    .aftercare-ask { color: #ccc; margin-bottom: 0.75rem; }
+    
+    .aftercare-micro {
+      background: #3a4a3a;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+    }
+    .micro-title { font-weight: 500; margin-bottom: 0.25rem; }
+    .micro-steps { font-size: 0.85rem; color: #aaa; }
+    .micro-eta { font-size: 0.75rem; color: #666; margin-top: 0.25rem; }
+    
+    .aftercare-actions { display: flex; gap: 0.5rem; }
+    .btn-accept { background: #4a9eff; color: #fff; font-size: 0.85rem; padding: 0.5rem 1rem; }
+    .btn-decline { background: #3a3a3a; color: #888; font-size: 0.85rem; padding: 0.5rem 1rem; }
+    .btn-decline:hover { background: #4a4a4a; }
+    
+    /* Congrats */
+    .congrats-emoji { font-size: 4rem; margin-bottom: 1rem; }
+    .congrats-title { font-size: 1.8rem; color: #8fdf8f; margin-bottom: 0.5rem; }
+    .congrats-sub { color: #ccc; font-size: 1.1rem; }
+    .btn-close-congrats { margin-top: 1.5rem; background: #3a3a3a; color: #ccc; }
+    
+    /* Fireworks */
+    .firework {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: firework 1s ease-out forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    @keyframes firework {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+    
+    .particle {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: particle 1.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    @keyframes particle {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0) translateY(100px); }
+    }
+    
+    /* Recommend box */
+    .recommend-box {
+      background: #3a3a4a;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-top: 0.75rem;
+    }
+    .recommend-title { font-size: 0.85rem; color: #aaa; margin-bottom: 0.5rem; }
+    .recommend-task { color: #e0e0e0; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .section { margin-bottom: 2rem; }
+    .section-title {
+      font-size: 0.85rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    
+    .task-list { list-style: none; }
+    .task-item {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .task-content { flex: 1; }
+    .task-name { font-weight: 500; margin-bottom: 0.25rem; }
+    .task-hint { font-size: 0.85rem; color: #888; }
+    .btn-done {
+      background: #3a3a3a;
+      color: #888;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      flex-shrink: 0;
+    }
+    .btn-done:hover { background: #4a4a4a; color: #fff; }
+    
+    .parking-item {
+      background: #252525;
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .parking-content { flex: 1; }
+    .parking-name { font-size: 0.9rem; }
+    .parking-reason { color: #666; font-size: 0.8rem; }
+    .btn-parking-done {
+      background: #333;
+      color: #666;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      flex-shrink: 0;
+    }
+    .btn-parking-done:hover { background: #444; color: #aaa; }
+    
+    .done-toggle {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .done-toggle:hover { color: #888; }
+    .done-list { display: none; margin-top: 0.75rem; }
+    .done-list.show { display: block; }
+    .done-item { font-size: 0.85rem; color: #666; padding: 0.25rem 0; }
+    .done-date { color: #555; margin-right: 0.5rem; }
+    
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: #2a2a2a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 400px;
+    }
+    .modal h3 { font-size: 1rem; font-weight: 500; margin-bottom: 1rem; }
+    .modal textarea { min-height: 80px; margin-bottom: 1rem; }
+    .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+    .btn-cancel { background: #3a3a3a; color: #888; }
+    .btn-cancel:hover { background: #4a4a4a; }
+    .empty { color: #555; font-size: 0.9rem; padding: 1rem 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>BrainDump</h1>
+      <div class="style-selector">
+        <button class="style-btn" data-style="snarky">毒舌</button>
+        <button class="style-btn" data-style="neutral">中性</button>
+        <button class="style-btn" data-style="warm">温柔</button>
+      </div>
+    </header>
+    
+    <div class="input-area">
+      <textarea id="input" placeholder="随便写点什么...&#10;待办、碎念、焦虑、新想法都行"></textarea>
+      <div class="input-actions">
+        <button class="btn-mic" id="micBtn" title="语音输入">🎤</button>
+        <button class="btn-primary" id="replanBtn">重排一下</button>
+      </div>
+    </div>
+    
+    <!-- 一键清空确认 -->
+    <div class="clear-all-box" id="clearAllBox">
+      <div class="clear-all-title" id="clearAllTitle">🎯 一键清空？</div>
+      <div class="clear-all-count" id="clearAllCount">共 X 个任务</div>
+      <div class="clear-all-detail" id="clearAllDetail"></div>
+      <button class="btn-clear-all" id="clearAllBtn">✨ 全部完成！</button>
+      <button class="btn-cancel-clear" id="cancelClearBtn">算了</button>
+    </div>
+    
+    <!-- 确认完成 -->
+    <div class="confirm-box" id="confirmBox">
+      <div class="confirm-question" id="confirmQuestion">是否已完成 XXX？</div>
+      <div class="confirm-actions">
+        <button class="btn-yes" id="confirmYes">是的，完成了</button>
+        <button class="btn-no" id="confirmNo">还没</button>
+      </div>
+    </div>
+    
+    <!-- 恭喜界面 -->
+    <div class="congrats-box" id="congratsBox">
+      <div class="congrats-emoji">🎉</div>
+      <div class="congrats-title" id="congratsTitle">太棒了！</div>
+      <div class="congrats-sub" id="congratsSub">今天的任务全部完成！</div>
+      <button class="btn-close-congrats" id="closeCongrats">收工</button>
+    </div>
+    
+    <!-- Aftercare -->
+    <div class="aftercare" id="aftercare">
+      <div class="aftercare-praise" id="aftercarePraise"></div>
+      <div class="aftercare-hint" id="aftercareHint" style="display:none;"></div>
+      <div class="aftercare-safety" id="aftercareSafety"></div>
+      <div id="recommendBox" class="recommend-box" style="display:none;">
+        <div class="recommend-title">主线清完了，要不要继续？</div>
+        <div class="recommend-task" id="recommendTask"></div>
+      </div>
+      <div id="microSection" style="display:none;">
+        <div class="aftercare-ask" id="aftercareAsk"></div>
+        <div class="aftercare-micro" id="aftercareMicro">
+          <div class="micro-title" id="microTitle"></div>
+          <div class="micro-steps" id="microSteps"></div>
+          <div class="micro-eta" id="microEta"></div>
+        </div>
+        <div class="aftercare-actions">
+          <button class="btn-accept" id="acceptBtn">顺便做</button>
+          <button class="btn-decline" id="declineBtn">不了</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section" id="todaySection">
+      <div class="section-title">今天做这几件</div>
+      <ul class="task-list" id="todayList"></ul>
+    </div>
+    
+    <div class="section" id="parkingSection">
+      <div class="section-title">可以不做</div>
+      <div id="parkingList"></div>
+    </div>
+    
+    <div class="section">
+      <button class="done-toggle" id="doneToggle">
+        <span>▶</span> 已完成 (<span id="doneCount">0</span>)
+      </button>
+      <div class="done-list" id="doneList"></div>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>完成：<span id="modalTask"></span></h3>
+      <textarea id="noteInput" placeholder="写两句感想（可选）"></textarea>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="cancelBtn">取消</button>
+        <button class="btn-primary" id="confirmBtn">完成</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="parkingModal">
+    <div class="modal">
+      <h3>完成：<span id="parkingModalTask"></span></h3>
+      <textarea id="parkingNoteInput" placeholder="写两句感想（可选）"></textarea>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="parkingCancelBtn">取消</button>
+        <button class="btn-primary" id="parkingConfirmBtn">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+    
+    let currentTask = null;
+    let currentParkingTask = null;
+    let currentMicroAction = null;
+    let currentStyle = 'neutral';
+    let pendingConfirmItems = [];
+    let currentConfirmIndex = 0;
+    let pendingClearAllTasks = [];
+    let pendingClearAllParking = [];
+    
+    // Fireworks effect
+    function createFireworks() {
+      const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fff', '#6bfff6'];
+      const count = 50;
+      
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = Math.random() * window.innerWidth + 'px';
+          particle.style.top = Math.random() * window.innerHeight * 0.6 + 'px';
+          particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+          particle.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+          document.body.appendChild(particle);
+          
+          setTimeout(() => particle.remove(), 1500);
+        }, i * 30);
+      }
+    }
+    
+    // Speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isRecording = false;
+    
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'zh-CN';
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        $('#input').value += (($('#input').value ? ' ' : '') + text);
+        stopRecording();
+      };
+      recognition.onerror = () => stopRecording();
+      recognition.onend = () => stopRecording();
+    } else {
+      $('#micBtn').disabled = true;
+    }
+    
+    function startRecording() {
+      if (!recognition) return;
+      recognition.start();
+      isRecording = true;
+      $('#micBtn').classList.add('recording');
+    }
+    
+    function stopRecording() {
+      if (!recognition) return;
+      try { recognition.stop(); } catch(e) {}
+      isRecording = false;
+      $('#micBtn').classList.remove('recording');
+    }
+    
+    $('#micBtn').onclick = () => isRecording ? stopRecording() : startRecording();
+    
+    async function api(endpoint, method = 'GET', body = null) {
+      const opts = { method, headers: { 'Content-Type': 'application/json' } };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(endpoint, opts);
+      return res.json();
+    }
+    
+    function updateStyleUI(style) {
+      currentStyle = style;
+      $$('.style-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.style === style));
+    }
+    
+    $$('.style-btn').forEach(btn => {
+      btn.onclick = async () => {
+        await api('/api/style', 'POST', { praise_style: btn.dataset.style });
+        updateStyleUI(btn.dataset.style);
+      };
+    });
+    
+    function render(state) {
+      const todayList = $('#todayList');
+      if (state.today.length === 0) {
+        todayList.innerHTML = '<div class="empty">暂无任务</div>';
+      } else {
+        todayList.innerHTML = state.today.map(t => `
+          <li class="task-item">
+            <div class="task-content">
+              <div class="task-name">${escapeHtml(t.name)}</div>
+              ${t.hint ? `<div class="task-hint">→ ${escapeHtml(t.hint)}</div>` : ''}
+            </div>
+            <button class="btn-done" data-task="${escapeHtml(t.name)}">完成</button>
+          </li>
+        `).join('');
+      }
+      
+      if (state.parking.length === 0) {
+        $('#parkingSection').style.display = 'none';
+      } else {
+        $('#parkingSection').style.display = 'block';
+        $('#parkingList').innerHTML = state.parking.map(p => `
+          <div class="parking-item">
+            <div class="parking-content">
+              <div class="parking-name">${escapeHtml(p.name)}</div>
+              <div class="parking-reason">— ${escapeHtml(p.reason)}</div>
+            </div>
+            <button class="btn-parking-done" data-task="${escapeHtml(p.name)}">做完了</button>
+          </div>
+        `).join('');
+      }
+      
+      $('#doneCount').textContent = state.done.length;
+      if (state.done.length === 0) {
+        $('#doneList').innerHTML = '<div class="empty">还没有完成的事</div>';
+      } else {
+        $('#doneList').innerHTML = state.done.map(d => `
+          <div class="done-item">${d.date ? `<span class="done-date">${d.date}</span>` : ''}${escapeHtml(d.text)}</div>
+        `).join('');
+      }
+      
+      $$('.btn-done').forEach(btn => btn.onclick = () => openModal(btn.dataset.task));
+      $$('.btn-parking-done').forEach(btn => btn.onclick = () => openParkingModal(btn.dataset.task));
+    }
+    
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    // Clear All
+    function showClearAllBox(tasks, parkingTasks = null) {
+      pendingClearAllTasks = tasks;
+      pendingClearAllParking = parkingTasks || [];
+      
+      const totalCount = tasks.length + pendingClearAllParking.length;
+      
+      if (pendingClearAllParking.length > 0) {
+        $('#clearAllTitle').textContent = '🚀 彻底清空！';
+        $('#clearAllCount').textContent = `共 ${totalCount} 个任务`;
+        $('#clearAllDetail').innerHTML = `
+          <div>📋 主线任务：${tasks.length} 个</div>
+          <div class="parking-note">⭐ 可以不做：${pendingClearAllParking.length} 个</div>
+        `;
+        $('#clearAllBtn').textContent = '🎆 全部全部完成！';
+      } else {
+        $('#clearAllTitle').textContent = '🎯 一键清空？';
+        $('#clearAllCount').textContent = `共 ${tasks.length} 个任务`;
+        $('#clearAllDetail').innerHTML = '';
+        $('#clearAllBtn').textContent = '✨ 全部完成！';
+      }
+      
+      $('#clearAllBox').classList.add('show');
+    }
+    
+    function hideClearAllBox() {
+      $('#clearAllBox').classList.remove('show');
+      pendingClearAllTasks = [];
+      pendingClearAllParking = [];
+    }
+    
+    $('#clearAllBtn').onclick = async () => {
+      if (pendingClearAllTasks.length === 0 && pendingClearAllParking.length === 0) return;
+      
+      $('#clearAllBtn').disabled = true;
+      $('#clearAllBtn').textContent = '处理中...';
+      
+      const body = { tasks: pendingClearAllTasks };
+      if (pendingClearAllParking.length > 0) {
+        body.parking_tasks = pendingClearAllParking;
+      }
+      
+      const res = await api('/api/complete_all', 'POST', body);
+      
+      hideClearAllBox();
+      render(res.state);
+      
+      // 放礼花！包括 parking 时多放一波
+      createFireworks();
+      setTimeout(createFireworks, 300);
+      setTimeout(createFireworks, 600);
+      if (res.include_parking) {
+        setTimeout(createFireworks, 900);
+        setTimeout(createFireworks, 1200);
+      }
+      
+      // 显示恭喜
+      showCongrats(res.praise, res.completed_count);
+      
+      $('#clearAllBtn').disabled = false;
+      $('#clearAllBtn').textContent = '✨ 全部完成！';
+    };
+    
+    $('#cancelClearBtn').onclick = hideClearAllBox;
+    
+    // Confirm box (for single items)
+    function showConfirmBox(items) {
+      pendingConfirmItems = items;
+      currentConfirmIndex = 0;
+      showNextConfirm();
+    }
+    
+    function showNextConfirm() {
+      if (currentConfirmIndex >= pendingConfirmItems.length) {
+        hideConfirmBox();
+        return;
+      }
+      const item = pendingConfirmItems[currentConfirmIndex];
+      $('#confirmQuestion').textContent = `是否已完成「${item}」？`;
+      $('#confirmBox').classList.add('show');
+    }
+    
+    function hideConfirmBox() {
+      $('#confirmBox').classList.remove('show');
+      pendingConfirmItems = [];
+      currentConfirmIndex = 0;
+    }
+    
+    $('#confirmYes').onclick = async () => {
+      const item = pendingConfirmItems[currentConfirmIndex];
+      $('#confirmYes').disabled = true;
+      $('#confirmYes').textContent = '...';
+      
+      const res = await api('/api/confirm_done', 'POST', { item });
+      render(res.state);
+      
+      if (res.all_done) {
+        hideConfirmBox();
+        createFireworks();
+        showCongrats(res.praise, pendingConfirmItems.length);
+      } else {
+        showAftercare(res);
+      }
+      
+      $('#confirmYes').disabled = false;
+      $('#confirmYes').textContent = '是的，完成了';
+      
+      currentConfirmIndex++;
+      if (currentConfirmIndex < pendingConfirmItems.length && !res.all_done) {
+        setTimeout(showNextConfirm, 500);
+      } else {
+        hideConfirmBox();
+      }
+    };
+    
+    $('#confirmNo').onclick = () => {
+      currentConfirmIndex++;
+      showNextConfirm();
+    };
+    
+    // Congrats
+    function showCongrats(title, count) {
+      $('#congratsTitle').textContent = title || '太棒了！';
+      $('#congratsSub').textContent = count ? `完成了 ${count} 个任务！` : '今天的任务全部完成！';
+      $('#congratsBox').classList.add('show');
+    }
+    
+    $('#closeCongrats').onclick = () => {
+      $('#congratsBox').classList.remove('show');
+    };
+    
+    // Aftercare
+    function showAftercare(data) {
+      if (data.all_done) {
+        createFireworks();
+        showCongrats(data.praise);
+        return;
+      }
+      
+      $('#aftercarePraise').textContent = data.praise || '';
+      
+      if (data.hint) {
+        $('#aftercareHint').textContent = data.hint;
+        $('#aftercareHint').style.display = 'block';
+      } else {
+        $('#aftercareHint').style.display = 'none';
+      }
+      
+      $('#aftercareSafety').textContent = data.safety_note || '';
+      
+      if (data.recommend_to_today) {
+        $('#recommendTask').textContent = data.recommend_to_today.name;
+        $('#recommendBox').style.display = 'block';
+      } else {
+        $('#recommendBox').style.display = 'none';
+      }
+      
+      if (data.micro_action && data.ask) {
+        currentMicroAction = data.micro_action;
+        $('#aftercareAsk').textContent = data.ask;
+        $('#microTitle').textContent = data.micro_action.title;
+        $('#microSteps').textContent = data.micro_action.steps;
+        $('#microEta').textContent = `约 ${data.micro_action.eta_seconds} 秒`;
+        $('#microSection').style.display = 'block';
+      } else {
+        $('#microSection').style.display = 'none';
+        currentMicroAction = null;
+      }
+      
+      $('#aftercare').classList.add('show');
+    }
+    
+    function hideAftercare() {
+      $('#aftercare').classList.remove('show');
+      currentMicroAction = null;
+    }
+    
+    $('#acceptBtn').onclick = async () => {
+      if (!currentMicroAction) return;
+      $('#acceptBtn').disabled = true;
+      $('#acceptBtn').textContent = '...';
+      const res = await api('/api/accept_micro', 'POST', { action_title: currentMicroAction.title });
+      render(res.state);
+      hideAftercare();
+      $('#acceptBtn').disabled = false;
+      $('#acceptBtn').textContent = '顺便做';
+    };
+    
+    $('#declineBtn').onclick = hideAftercare;
+    
+    // Modal for today task
+    function openModal(taskName) {
+      currentTask = taskName;
+      $('#modalTask').textContent = taskName;
+      $('#noteInput').value = '';
+      $('#modal').classList.add('show');
+      $('#noteInput').focus();
+    }
+    
+    function closeModal() {
+      $('#modal').classList.remove('show');
+      currentTask = null;
+    }
+    
+    $('#cancelBtn').onclick = closeModal;
+    $('#modal').onclick = (e) => { if (e.target === $('#modal')) closeModal(); };
+    
+    $('#confirmBtn').onclick = async () => {
+      if (!currentTask) return;
+      $('#confirmBtn').disabled = true;
+      $('#confirmBtn').textContent = '...';
+      
+      const res = await api('/api/complete', 'POST', { task_text: currentTask, note: $('#noteInput').value });
+      closeModal();
+      render(res.state);
+      showAftercare(res);
+      
+      $('#confirmBtn').disabled = false;
+      $('#confirmBtn').textContent = '完成';
+    };
+    
+    // Modal for parking task
+    function openParkingModal(taskName) {
+      currentParkingTask = taskName;
+      $('#parkingModalTask').textContent = taskName;
+      $('#parkingNoteInput').value = '';
+      $('#parkingModal').classList.add('show');
+      $('#parkingNoteInput').focus();
+    }
+    
+    function closeParkingModal() {
+      $('#parkingModal').classList.remove('show');
+      currentParkingTask = null;
+    }
+    
+    $('#parkingCancelBtn').onclick = closeParkingModal;
+    $('#parkingModal').onclick = (e) => { if (e.target === $('#parkingModal')) closeParkingModal(); };
+    
+    $('#parkingConfirmBtn').onclick = async () => {
+      if (!currentParkingTask) return;
+      $('#parkingConfirmBtn').disabled = true;
+      $('#parkingConfirmBtn').textContent = '...';
+      
+      const res = await api('/api/complete_parking', 'POST', { 
+        task_name: currentParkingTask, 
+        note: $('#parkingNoteInput').value 
+      });
+      closeParkingModal();
+      render(res.state);
+      showAftercare(res);
+      
+      $('#parkingConfirmBtn').disabled = false;
+      $('#parkingConfirmBtn').textContent = '完成';
+    };
+    
+    // Replan
+    $('#replanBtn').onclick = async () => {
+      const text = $('#input').value.trim();
+      if (!text) return;
+      
+      $('#replanBtn').disabled = true;
+      $('#replanBtn').textContent = '处理中...';
+      
+      const res = await api('/api/capture', 'POST', { text });
+      render(res.state);
+      $('#input').value = '';
+      
+      // 检测是否是"全部完成"的确认
+      if (res.confirm_all && res.pending_confirm && res.pending_confirm.length > 0) {
+        showClearAllBox(res.pending_confirm, res.pending_parking);
+      } else if (res.pending_confirm && res.pending_confirm.length > 0) {
+        showConfirmBox(res.pending_confirm);
+      } else if (res.praise) {
+        $('#aftercarePraise').textContent = res.praise;
+        $('#aftercareSafety').textContent = '';
+        $('#aftercareHint').style.display = 'none';
+        $('#recommendBox').style.display = 'none';
+        $('#microSection').style.display = 'none';
+        $('#aftercare').classList.add('show');
+        setTimeout(hideAftercare, 3000);
+      }
+      
+      $('#replanBtn').disabled = false;
+      $('#replanBtn').textContent = '重排一下';
+    };
+    
+    // Done toggle
+    $('#doneToggle').onclick = () => {
+      const list = $('#doneList');
+      const arrow = $('#doneToggle span');
+      list.classList.toggle('show');
+      arrow.textContent = list.classList.contains('show') ? '▼' : '▶';
+    };
+    
+    // Init
+    (async () => {
+      const state = await api('/api/state');
+      render(state);
+      if (state.praise_style) updateStyleUI(state.praise_style);
+    })();
+  </script>
+</body>
+</html>
